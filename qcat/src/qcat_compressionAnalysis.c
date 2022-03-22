@@ -222,10 +222,10 @@ double calculateSSIM(void* oriData, void* decData, int dataType, size_t r4, size
 {
 	int dim = computeDimension(0, r4, r3, r2, r1);
 	
-	int windowSize0 = 7;
-	int windowSize1 = 7;
-	int windowSize2 = 7;
-	int windowSize3 = 7;
+	int windowSize0 = 8;
+	int windowSize1 = 8;
+	int windowSize2 = 8;
+	int windowSize3 = 8;
 	
 	int windowShift0 = 2;
 	int windowShift1 = 2;
