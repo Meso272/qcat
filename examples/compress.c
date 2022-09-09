@@ -95,9 +95,11 @@ float lorenzo_1d(float * array, int x_start, float error_bound,
             us[uidx++]=orig;
         array[idx]=orig;
 
+        
+    }   
     (*u_count)=uidx;
     return loss;
-    }
+    
 }
     
 
@@ -193,7 +195,7 @@ int main(int argc,char*argv[]){
     float * recondata=readFloatData(reconpath,&nbEle,&status);
     float * decompdata=(float *)malloc(nbEle*sizeof(float));
     float * predictdata=(float *)malloc(nbEle*sizeof(float));
-    printf("%d %d\n",nbEle,nbEle_padded);
+    printf("%ld %ld\n",nbEle,nbEle_padded);
     float min=2e30;
     float max=-2e30;
     if (dim==2){
