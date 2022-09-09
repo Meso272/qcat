@@ -26,7 +26,7 @@ char *removeFileExtension(char* myStr)
     char *retStr;
     char *lastExt;
     if (myStr == NULL) return NULL;
-    if ((retStr = malloc (strlen (myStr) + 1)) == NULL) return NULL;
+    if ((retStr = (char*)malloc (strlen (myStr) + 1)) == NULL) return NULL;
     strcpy (retStr, myStr);
     lastExt = strrchr (retStr, '.');
     if (lastExt != NULL)
@@ -1008,7 +1008,7 @@ void writeDoubleData(double *data, size_t nbEle, char *tgtFilePath, int *status)
     
     for(i = 0;i<nbEle;i++)
 	{
-		sprintf(s,"%.20G\n",data[i]);
+		sprintf(s,"%.20f\n",data[i]);
 		fputs(s, pFile);
 	}
     
@@ -1032,7 +1032,7 @@ void writeFloatData(float *data, size_t nbEle, char *tgtFilePath, int *status)
 	{
 		//printf("i=%d\n",i);
 		//printf("data[i]=%f\n",data[i]);
-		sprintf(s,"%.30G\n",data[i]);
+		sprintf(s,"%.10f\n",data[i]);
 		fputs(s, pFile);
 	}
     
@@ -1060,6 +1060,28 @@ void writeData(void *data, int dataType, size_t nbEle, char *tgtFilePath, int *s
 		return;
 	}
 	*status = state;
+}
+
+void writeData_inBytes(void *data, int dataType, size_t nbEle, char* tgtFilePath, int *status)
+{
+	int state = RW_SCES;
+	if(dataType == QCAT_FLOAT)
+	{
+		float* dataArray = (float *)data;
+		writeFloatData_inBytes(dataArray, nbEle, tgtFilePath, &state);
+	}
+	else if(dataType == QCAT_DOUBLE)
+	{
+		double* dataArray = (double *)data;
+		writeDoubleData_inBytes(dataArray, nbEle, tgtFilePath, &state);	
+	}
+	else
+	{
+		printf("Error: data type cannot be the types other than SZ_FLOAT or SZ_DOUBLE\n");
+		*status = RW_TERR; //wrong type
+		return;
+	}
+	*status = state;	
 }
 
 void writeFloatData_inBytes(float *data, size_t nbEle, char* tgtFilePath, int *status)
@@ -1371,7 +1393,7 @@ char *extractFileNameFromPath(char *filePath)
     return q;
 }
 
-void writePDFData(char* tgtFilePath, double err_minValue, double err_interval, int pdf_intervals, double* pdfData)
+void writePDFData_error(char* tgtFilePath, double err_minValue, double err_interval, int pdf_intervals, double* pdfData)
 {
 	size_t i = 0;
 	if(err_interval==0)
@@ -1404,20 +1426,36 @@ void writePDFData(char* tgtFilePath, double err_minValue, double err_interval, i
 	
 }
 
-void writePDFData_int32(char* tgtFilePath, double min, int intervals, double* pdfData)
+void writePDFData_raw(int dtype, char* tgtFilePath, float min, int intervals, double* pdfData, double unit)
 {
 	size_t i = 0;
 	char** ss = (char**)malloc((intervals+1)*sizeof(char*));
 	ss[0] = (char*)malloc(sizeof(char)*QCAT_BUFS);
-	sprintf(ss[0], "x errpdf\n");
-	for(i=0;i<intervals;i++)
+	sprintf(ss[0], "x \"\"\n");
+	
+	if(dtype==QCAT_INT32)
 	{
-		//printf("%d\n", i);
-		ss[i+1] = (char*)malloc(sizeof(char)*QCAT_BUFS);
-		double x = min+i;
-		if(pdfData[i]!=0)
-			sprintf(ss[i+1], "%.10G %.10G\n", x, pdfData[i]);
+		for(i=0;i<intervals;i++)
+		{
+			//printf("%d\n", i);
+			ss[i+1] = (char*)malloc(sizeof(char)*QCAT_BUFS);
+			float x = min+i;
+			if(pdfData[i]!=0)
+				sprintf(ss[i+1], "%.10G %.10G\n", x, pdfData[i]);
+		}		
 	}
+	else if(dtype==QCAT_FLOAT)
+	{
+		for(i=0;i<intervals;i++)
+		{
+			//printf("%d\n", i);
+			ss[i+1] = (char*)malloc(sizeof(char)*QCAT_BUFS);
+			float x = min+unit*i;
+			if(pdfData[i]!=0)
+				sprintf(ss[i+1], "%.10G %.10G\n", x, pdfData[i]);
+		}			
+	}
+
 	RW_writeStrings(intervals+1, ss, tgtFilePath);
 	for(i=0;i<intervals+1;i++)
 		free(ss[i]);

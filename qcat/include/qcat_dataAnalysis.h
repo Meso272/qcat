@@ -54,10 +54,33 @@ typedef struct QCAT__ELEMENT
 } QCAT_ELEMENT;
 
 double computeLosslessEntropy(int dataType, void* data, size_t nbEle);
+double computeLosslessEntropy_32bits_fast(void* data, size_t nbEle);
 double computeLosslessEntropy_32bits(void* data, size_t nbEle);
 double computeLosslessEntropy_64bits(void* data, size_t nbEle);
 QCAT_DataProperty* computeProperty(int dataType, void* data, size_t nbEle, int entropyType);
 void printProperty(QCAT_DataProperty* property);
+double* computeDataPDF_int32(void* data, size_t numOfElem, int* min, int* intervals);
+double* computeDataPDF_float(float* data, size_t numOfElem, int intervals, float* min, double* unit, float mint, float maxt);
+
+void computeLaplacian_float(float *data, float *lap, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+void computeLaplacian_double(double *data, double *lap, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+int computeLaplacian(void *data, void *lap, int dataType, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+
+void computeGradientLength_float(float* data, float*gradMag, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+void computeGradientLength_double(double* data, double*gradMag, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+int computeGradientLength(void* data, void*gradMag, int dataType, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+
+double calculateSobolevNorm_s0_p2_float(float *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+double calculateSobolevNorm_s1_p2_float(float *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+double calculateSobolevNorm_s2_p2_float(float *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+
+double calculateSobolevNorm_s0_p2_double(double *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+double calculateSobolevNorm_s1_p2_double(double *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+double calculateSobolevNorm_s2_p2_double(double *data, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+
+double calculateSobolevNorm_p2(void *data, int dataType, int order, size_t r5, size_t r4, size_t r3, size_t r2, size_t r1);
+
+
 
 #ifdef __cplusplus
 }
