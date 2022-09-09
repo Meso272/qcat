@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS=foreign
 AM_CPPFLAGS = -I../qcat/include -I../zstd
 AM_CFLAGS = -I../qcat/include -I../zstd
 
-bin_PROGRAMS=printProperty changeDataSize generateRandomData generateRandomData2 convertBytesToTxtFloat convertBytesToTxtDouble splitComplexData convertDataToLogFloat convertDataToLogDouble convertTxtToBytesDouble convertTxtToBytesFloat PlotSliceImage convertFloatToDouble convertDoubleToFloat compareData extractSliceFrom3D computeDataPDF computeErrPDF calculateSSIM predCR convertDataType simSZ convertEndianType computeDataAutoCorrelation computeErrAutoCorrelation compressQuantBins computeAccuracyGain computeLaplacian calculateSobolevNorm computeGradientLength huffmanZstd compress nnPredict nnDecompress
+bin_PROGRAMS=printProperty changeDataSize generateRandomData generateRandomData2 convertBytesToTxtFloat convertBytesToTxtDouble splitComplexData convertDataToLogFloat convertDataToLogDouble convertTxtToBytesDouble convertTxtToBytesFloat PlotSliceImage convertFloatToDouble convertDoubleToFloat compareData extractSliceFrom3D computeDataPDF computeErrPDF calculateSSIM predCR convertDataType simSZ convertEndianType computeDataAutoCorrelation computeErrAutoCorrelation compressQuantBins computeAccuracyGain computeLaplacian calculateSobolevNorm computeGradientLength compress nnPredict nnDecompress
 printProperty_SOURCES=printProperty.c
 printProperty_LDADD=../qcat/.libs/libqcat.a -lm
 changeDataSize_SOURCES=changeDataSize.c
@@ -63,8 +63,7 @@ calculateSobolevNorm_SOURCES=calculateSobolevNorm.c
 calculateSobolevNorm_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
 computeGradientLength_SOURCES=computeGradientLength.c
 computeGradientLength_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
-huffmanZstd_SOURCES=huffmanZstd.c
-huffmanZstd_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
+
 compress_SOURCES=compress.c
 compress_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
 nnPredict_SOURCES=nnPredict.c
