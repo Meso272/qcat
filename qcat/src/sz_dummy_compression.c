@@ -190,7 +190,40 @@ size_t cmpSize)
 }
 
 
-QCAT_CompressionResult* huffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle)
+QCAT_CompressionResult* huffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle, void* origData, void* decData)
+{
+	QCAT_CompressionResult* result= NULL;
+	//compress type[] by Huffman encoding
+	int stateNum = 2*quantBinCapacity;
+	HuffmanTree* huffmanTree = createHuffmanTree(stateNum);
+	unsigned char* huffmanOutput = NULL;
+	size_t huffmanOutSize = 0;
+	encode_withTree(huffmanTree, type, nbEle, &huffmanOutput, &huffmanOutSize);
+	SZ_ReleaseHuffman(huffmanTree);
+		
+	//compress huffman output by zstd
+	size_t estimatedCompressedSize = 0;
+	if(nbEle < 100)
+			estimatedCompressedSize = 200;
+	else
+			estimatedCompressedSize = nbEle*sizeof(int)*1.2;
+	unsigned char* compressBytes = (unsigned char*)malloc(estimatedCompressedSize);
+	size_t zstdOutSize = ZSTD_compress(compressBytes, estimatedCompressedSize, huffmanOutput, huffmanOutSize, 3);	
+	
+	free(compressBytes);
+	free(huffmanOutput);
+	
+	//analyze compression results
+	result = compareData(dataType, nbEle, origData, decData);
+	//int dataSize = 4+dataType*4;
+	result->compressionSize = zstdOutSize;
+	//float compressionRatio = ((float)dataSize*nbEle)/zstdOutSize;
+	//result->compressionRatio = compressionRatio;	
+	
+	return result;
+}
+
+QCAT_CompressionResult* shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle)
 {
 	QCAT_CompressionResult* result= NULL;
 	//compress type[] by Huffman encoding
