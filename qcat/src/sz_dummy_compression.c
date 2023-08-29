@@ -247,13 +247,13 @@ QCAT_CompressionResult* shortHuffmanAndZstd(int dataType, int* type, int quantBi
 	free(huffmanOutput);
 	
 	//analyze compression results
-	result = compareData(dataType, nbEle, origData, decData);
+	//result = compareData(dataType, nbEle, origData, decData);
 	//int dataSize = 4+dataType*4;
 	result->compressionSize = zstdOutSize;
 	//float compressionRatio = ((float)dataSize*nbEle)/zstdOutSize;
 	//result->compressionRatio = compressionRatio;	
 	
-	return result;
+	return result->compressionSize
 }
 
 
