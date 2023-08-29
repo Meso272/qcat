@@ -56,7 +56,7 @@ int main(int argc, char * argv[])
     //    {printf("%d\n",data[i]);}
     size_t compressedsize;
     if (quantBinCapacity>0)
-        compressedsize= shortHuffmanAndZstd(0, data, quantBinCapacity, nbEle);
+        compressedsize= HuffmanAndZstd(0, data, quantBinCapacity, nbEle);
     else{
         unsigned char *source=(unsigned char*)malloc(nbEle);
         unsigned char *dest=(unsigned char*)malloc(nbEle);

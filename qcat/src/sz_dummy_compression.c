@@ -190,7 +190,7 @@ size_t cmpSize)
 }
 
 
-QCAT_CompressionResult* huffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle, void* origData, void* decData)
+QCAT_CompressionResult* huffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle)
 {
 	QCAT_CompressionResult* result= NULL;
 	//compress type[] by Huffman encoding
