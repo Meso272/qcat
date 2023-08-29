@@ -223,7 +223,7 @@ QCAT_CompressionResult* huffmanAndZstd(int dataType, int* type, int quantBinCapa
 	return result;
 }
 
-QCAT_CompressionResult* shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle)
+size_t shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t nbEle)
 {
 	QCAT_CompressionResult* result= NULL;
 	//compress type[] by Huffman encoding
@@ -253,7 +253,7 @@ QCAT_CompressionResult* shortHuffmanAndZstd(int dataType, int* type, int quantBi
 	//float compressionRatio = ((float)dataSize*nbEle)/zstdOutSize;
 	//result->compressionRatio = compressionRatio;	
 	
-	return result->compressionSize
+	return result->compressionSize;
 }
 
 
