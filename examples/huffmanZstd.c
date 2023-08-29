@@ -53,7 +53,7 @@ int main(int argc, char * argv[])
    
     int *data = readInt32Data(FilePath, &nbEle, &status);
     //for(int i=0;i<nbEle;i++)
-        printf("%d\n",data[nbEle-1]);
+       // printf("%d\n",data[nbEle-1]);
     size_t compressedsize;
     if (quantBinCapacity>0)
         compressedsize= shortHuffmanAndZstd(0, data, quantBinCapacity, nbEle);
