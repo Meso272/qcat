@@ -71,3 +71,6 @@ nnPredict_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
 nnDecompress_SOURCES=nnDecompress.c
 nnDecompress_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
 
+huffmanZstd_SOURCES=huffmanZstd.c
+huffmanZstd_LDADD=../qcat/.libs/libqcat.a ../zstd/.libs/libzstd.a -lm
+
