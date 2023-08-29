@@ -243,7 +243,7 @@ size_t shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t
 	if(nbEle < 100)
 			estimatedCompressedSize = 200;
 	else
-			estimatedCompressedSize = nbEle*sizeof(int)*2.0;
+			estimatedCompressedSize = nbEle*sizeof(int)*5.0;
 	unsigned char* compressBytes = (unsigned char*)malloc(estimatedCompressedSize);
 	printf("p5\n");
 	size_t zstdOutSize = ZSTD_compress(compressBytes, estimatedCompressedSize, huffmanOutput, huffmanOutSize, 3);	
