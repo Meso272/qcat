@@ -228,11 +228,15 @@ size_t shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t
 	QCAT_CompressionResult* result= NULL;
 	//compress type[] by Huffman encoding
 	int stateNum = 2*quantBinCapacity;
+	printf("p1\n");
 	HuffmanTree* huffmanTree = createHuffmanTree(stateNum);
+	printf("p2\n");
 	unsigned char* huffmanOutput = NULL;
 	size_t huffmanOutSize = 0;
 	encode_withTree(huffmanTree, type, nbEle, &huffmanOutput, &huffmanOutSize);
+	printf("p3\n");
 	SZ_ReleaseHuffman(huffmanTree);
+	printf("p4\n");
 		
 	//compress huffman output by zstd
 	size_t estimatedCompressedSize = 0;
@@ -241,11 +245,12 @@ size_t shortHuffmanAndZstd(int dataType, int* type, int quantBinCapacity, size_t
 	else
 			estimatedCompressedSize = nbEle*sizeof(int)*2.0;
 	unsigned char* compressBytes = (unsigned char*)malloc(estimatedCompressedSize);
+	printf("p5\n");
 	size_t zstdOutSize = ZSTD_compress(compressBytes, estimatedCompressedSize, huffmanOutput, huffmanOutSize, 3);	
-	
+	printf("p6\n");
 	free(compressBytes);
 	free(huffmanOutput);
-	
+	printf("p7\n");
 	//analyze compression results
 	//result = compareData(dataType, nbEle, origData, decData);
 	//int dataSize = 4+dataType*4;
